@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+    web:
+        image: nginx:latest
+        container_name: my-webapp
+        volumes:
+            - ./web/nginx.conf:/etc/nginx/nginx.conf
+            - ./web/html:/usr/share/nginx/html
+        ports:
+            - 8081:8080
+            
+    proxy:
+          image: nginx:latest
+          container_name: my-proxy
+          volumes:
+            - ./proxy/nginx.conf:/etc/nginx/nginx.conf
+            - ./proxy/html:/usr/share/nginx/html
+          links:
+            - web:web
+          ports:
+            - 8080:80
